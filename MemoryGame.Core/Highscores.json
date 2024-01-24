@@ -1,1 +1,21 @@
-﻿
+﻿[
+  {
+    "Name": "John",
+    "Score": 100,
+    "CardAmount": 10,
+    "Date": "2019-01-01T00:00:00"
+  },
+  {
+    "Name": "Alice",
+    "Score": 90,
+    "CardAmount": 8,
+    "Date": "2019-02-15T12:30:00"
+  },
+  {
+    "Name": "Bob",
+    "Score": 85,
+    "CardAmount": 12,
+    "Date": "2019-03-20T08:45:00"
+  }
+  // Add more entries here
+]

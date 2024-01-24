@@ -10,8 +10,8 @@ namespace MemoryGame.Core
     public class Highscores
     {
         private static Highscores instance;
-        private string JsonPath = "C:\\Users\\ruben\\source\\repos\\HighscoreTracker\\HighscoreTracker\\Highscores.json";
-        private List<Highscore> Scores { get; }
+        private string JsonPath = "C:\\Users\\bakke\\OneDrive\\Documents\\ICT\\jaar 2\\1e semester\\c#\\week 2\\MemoryGame\\MemoryGame.Core\\Highscores.json";
+        public List<Highscore> Scores { get; }
 
         private Highscores()
         {
@@ -87,4 +87,4 @@ namespace MemoryGame.Core
         }
     }
 }
-}
+
