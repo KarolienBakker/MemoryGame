@@ -1,16 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
 namespace MemoryGame.Core
 {
     public class Highscores
     {
         private static Highscores instance;
-        private string JsonPath = "C:\\Users\\ruben\\source\\repos\\HighscoreTracker\\HighscoreTracker\\Highscores.json";
+        private string JsonPath = "C:\\Users\\ruben\\Source\\Repos\\MemoryGame\\MemoryGame.Core\\Highscores.json";
         private List<Highscore> Scores { get; }
 
         private Highscores()
@@ -28,9 +23,10 @@ namespace MemoryGame.Core
             return instance;
         }
 
-        public int CalculateScore(int amountOfCards, int timeInSeconds, int attempts)
+        public double CalculateScore(int amountOfCards, int timeInSeconds, int attempts)
         {
-            return (amountOfCards * 2 / (timeInSeconds * attempts)) * 1000;
+            double score = (amountOfCards * 2.0 / (timeInSeconds * attempts)) * 1000.0;
+            return Math.Round(score, 2);
         }
 
         private void LoadHighscores()
@@ -66,13 +62,13 @@ namespace MemoryGame.Core
         {
             Highscore highscore = new Highscore(name, CalculateScore(amountOfCards, timeInSeconds, attempts), amountOfCards, DateTime.Now);
             this.Scores.Add(highscore);
+            WriteHighscores();
         }
 
         public void WriteHighscores()
         {
             try
-            {
-
+            { 
                 string jsonData = JsonSerializer.Serialize(this.Scores);
                 File.WriteAllText(JsonPath, jsonData);
             }
@@ -87,4 +83,4 @@ namespace MemoryGame.Core
         }
     }
 }
-}
+

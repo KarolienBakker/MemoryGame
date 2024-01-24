@@ -8,6 +8,7 @@ namespace MemoryGame.Core
         public int Length { get; }
         public int Width { get; }
         private T[,] Field;
+        public T defaultValue { get; }
 
         public Board(int amountOfCards)
         {
@@ -40,26 +41,37 @@ namespace MemoryGame.Core
         {
             StringBuilder board = new StringBuilder();
 
+            board.Append("    ");
+            for (int j = 0; j < Width; j++)
+            {
+                board.Append($"{j,3}".PadRight(5));
+            }
+            board.AppendLine();
+
             for (int i = 0; i < Length; i++)
             {
-                board.Append("|");
+                board.Append($"{i,2} |");
 
                 for (int j = 0; j < Width; j++)
                 {
                     if (Field[i, j] != null)
                     {
-                        board.Append(Field[i, j].ToString());
+                        board.Append($" {Field[i, j].ToString(),2} ");
                     }
                     else
                     {
-                        board.Append("--");
+                        board.Append(" -- ");
                     }
 
                     board.Append("|");
                 }
-                board.Append("\n");
+                board.AppendLine();
             }
+
             return board.ToString();
         }
+
+
+
     }
 }

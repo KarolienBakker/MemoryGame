@@ -10,11 +10,11 @@ namespace MemoryGame.Core
     {
 
         public string Name { get; }
-        public int Score { get; }
+        public double Score { get; }
         public int CardAmount { get; }
         public DateTime Date { get; }
 
-        public Highscore(string name, int score, int cardAmount, DateTime date)
+        public Highscore(string name, double score, int cardAmount, DateTime date)
         {
             this.Name = name;
             this.Score = score;
@@ -37,4 +37,4 @@ namespace MemoryGame.Core
         }
     }
 }
-}
+

@@ -1,65 +1,70 @@
 ﻿using MemoryGame.Core;
-using System.Numerics;
 
-int amountOfCards = 6;
+Console.Clear();
 
-List<int> pairsList = new List<int>();
+bool programLoop = true;
 
-for (int i = 1; i <= amountOfCards; i++)
+while(programLoop)
 {
-    pairsList.Add(i);
-    pairsList.Add(i); 
-}
-
-MemoryGame<int> memoryGame = new MemoryGame<int>(amountOfCards, pairsList);
-
-int amountOfCardsFlipped = 0;
-List<int> cardsFlipped = new List<int>();
-List<List<int>> cardsFlippedCoords = new List<List<int>>();
-
- while (memoryGame.GameRunning)
-{
-
-    Console.WriteLine(memoryGame.PlayerBoard.ToString());
-    Console.WriteLine("Wich card do you want to check?");
-    string[] coords = Console.ReadLine().Split(',');
-    int x = int.Parse(coords[0]);
-    int y = int.Parse(coords[1]);
-
-    List<int> intCoords = new List<int>();
-    intCoords.Add(x);
-    intCoords.Add(y);
-    cardsFlippedCoords.Add(intCoords);
-
-    int flippedCard = memoryGame.GameBoard.GetValue(x, y);
-   
-   
-    
-
-    if (amountOfCardsFlipped == 2)
+    MemoryGame<int> memoryGame = StartGame();
+    while (memoryGame.GameRunning)
     {
-        int isEqual = cardsFlipped[0] / cardsFlipped[1];
-        if (isEqual != 1) {
-            foreach (var coord in cardsFlippedCoords)
+
+        Console.WriteLine(memoryGame.PlayerBoard.ToString() + "\n\n");
+
+        Console.WriteLine("Which card do you want to check: ");
+        string[] coords = Console.ReadLine().Split(',');
+
+        if (coords.Length != 2 || !int.TryParse(coords[0], out int x) || !int.TryParse(coords[1], out int y))
+        {
+            Console.WriteLine("Invalid input. Please enter valid coordinates.");
+
+        }
+        else if (!memoryGame.CoordsExist(x, y))
+        {
+            Console.WriteLine("Coordinates do not exist.");
+        }
+        else if (memoryGame.CheckIfCardFlipped(x, y))
+        {
+            Console.WriteLine("Card is already flipped.");
+        }
+        else
+        {
+            memoryGame.PlayRound(x, y);
+
+            if (memoryGame.GameRunning == false)
             {
-                memoryGame.PlayerBoard.SetValue(coord[0], coord[1], 0);
+                Console.WriteLine("You won! Press any key to play another game.");
+                Console.ReadKey();
+                break;
             }
-            cardsFlippedCoords.Clear();
         }
     }
-    
-    amountOfCardsFlipped++;
+}
 
-    if (amountOfCardsFlipped > 2)
+MemoryGame<int> StartGame()
+{
+    Console.Write("Please enter your name: ");
+    string name = Console.ReadLine();
+    Console.Write("How many cards do you want to play with: ");
+    int amountOfCards = int.Parse(Console.ReadLine());
+
+    // keep asking for input until the input is valid
+    while (amountOfCards < 5 || amountOfCards > 20)
     {
-        amountOfCardsFlipped = 1;
-      
-        cardsFlipped.Clear();
-
+        Console.WriteLine("Invalid input. Please enter a number between 5 and 20.");
+        amountOfCards = int.Parse(Console.ReadLine());
     }
-    cardsFlipped.Add(flippedCard);
-    memoryGame.PlayerBoard.SetValue(x, y, flippedCard);
 
+    List<int> pairsList = new List<int>();
+
+    for (int i = 1; i <= amountOfCards; i++)
+    {
+        pairsList.Add(i);
+        pairsList.Add(i);
+    }
+
+    return new MemoryGame<int>(amountOfCards, pairsList, name);
 }
 
 
